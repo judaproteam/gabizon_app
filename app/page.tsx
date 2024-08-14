@@ -1,7 +1,4 @@
-<<<<<<< Updated upstream
-export default function Home() {
-  return <div></div>
-=======
+
 "use client";
 
 import { insertLesson } from "@/db/lessons/set";
@@ -33,5 +30,4 @@ export default function Home() {
       <button type="submit">Send</button>
     </form>
   );
->>>>>>> Stashed changes
 }
