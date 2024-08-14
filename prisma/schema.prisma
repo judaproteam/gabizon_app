@@ -8,20 +8,22 @@ datasource db {
 }
 
 model User {
-  id        Int    @id @default(autoincrement())
-  firstName String
-  lastName  String
+  id           Int    @id @default(autoincrement())
+  firstName    String
+  lastName     String
+  favoritPosts Post[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
 
-model Lesson {
-  id      Int      @id @default(autoincrement())
-  title   String
-  creator Creator  @relation(fields: [creatorId], references: [id])
-  date    DateTime @default(now())
-  time    Int
+model Post {
+  id        Int      @id @default(autoincrement())
+  title     String
+  creator   Creator  @relation(fields: [creatorId], references: [id])
+  date      DateTime @default(now())
+  time      Int
+  userSaved User[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -34,5 +36,5 @@ model Creator {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
-  Lesson    Lesson[]
+  post      Post[]
 }
