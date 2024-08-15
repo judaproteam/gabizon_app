@@ -8,31 +8,67 @@ datasource db {
 }
 
 model User {
-  id           Int    @id @default(autoincrement())
-  firstName    String
-  lastName     String
-  favoritPosts Post[]
+  id        Int    @id @default(autoincrement())
+  firstName String
+  lastName  String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+
+  Saved Saved[]
+
+  Watched Watched[]
+}
+
+model Saved {
+  id   Int  @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id])
+  post Post @relation(fields: [postId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  userId Int
+  postId Int
+
+  @@unique([userId, postId])
+}
+
+model Watched {
+  id    Int  @id @default(autoincrement())
+  user  User @relation(fields: [userId], references: [id])
+  post  Post @relation(fields: [postId], references: [id])
+  count Int  @default(0)
+
+  createdAt DateTime @default(now())
+
+  userId Int
+  postId Int
+
+  @@unique([userId, postId])
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  creator   Creator  @relation(fields: [creatorId], references: [id])
-  date      DateTime @default(now())
-  time      Int
-  userSaved User[]
+  id      Int      @id @default(autoincrement())
+  title   String
+  creator Creator  @relation(fields: [creatorId], references: [id])
+  date    DateTime @default(now())
+  time    Int
+  type    String   @default("שיעור")
+  desc   String   @default("")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
   creatorId Int
+
+  Saved Saved[]
+
+  Watched Watched[]
 }
 
 model Creator {
-  id   Int    @id @default(autoincrement())
-  name String
+  id        Int    @id @default(autoincrement())
+  firstName String @default("")
+  lastName  String @default("")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
