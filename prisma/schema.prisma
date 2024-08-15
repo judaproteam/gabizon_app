@@ -7,17 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Saved {
-  id   Int  @id @default(autoincrement())
-  user User @relation(fields: [userId], references: [id])
-  post Post @relation(fields: [postId], references: [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-  userId    Int
-  postId    Int
-}
-
 model User {
   id        Int    @id @default(autoincrement())
   firstName String
@@ -25,7 +14,37 @@ model User {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
-  Saved     Saved[]
+
+  Saved Saved[]
+
+  Watched Watched[]
+}
+
+model Saved {
+  id   Int  @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id])
+  post Post @relation(fields: [postId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  userId Int
+  postId Int
+
+  @@unique([userId, postId])
+}
+
+model Watched {
+  id    Int  @id @default(autoincrement())
+  user  User @relation(fields: [userId], references: [id])
+  post  Post @relation(fields: [postId], references: [id])
+  count Int  @default(0) // count how many times the user watched the post
+
+  createdAt DateTime @default(now())
+
+  userId Int
+  postId Int
+
+  @@unique([userId, postId])
 }
 
 model Post {
@@ -35,15 +54,21 @@ model Post {
   date    DateTime @default(now())
   time    Int
 
+  type String @default("שיעור")
+  desc String @default("")
+
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
   creatorId Int
-  Saved     Saved[]
+
+  saved   Saved[]
+  watched Watched[]
 }
 
 model Creator {
-  id   Int    @id @default(autoincrement())
-  name String
+  id        Int    @id @default(autoincrement())
+  firstName String @default("")
+  lastName  String @default("")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
