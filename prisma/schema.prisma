@@ -7,27 +7,38 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id           Int    @id @default(autoincrement())
-  firstName    String
-  lastName     String
-  favoritPosts Post[]
+model Saved {
+  id   Int  @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id])
+  post Post @relation(fields: [postId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+  userId    Int
+  postId    Int
+}
+
+model User {
+  id        Int    @id @default(autoincrement())
+  firstName String
+  lastName  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  Saved     Saved[]
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  creator   Creator  @relation(fields: [creatorId], references: [id])
-  date      DateTime @default(now())
-  time      Int
-  userSaved User[]
+  id      Int      @id @default(autoincrement())
+  title   String
+  creator Creator  @relation(fields: [creatorId], references: [id])
+  date    DateTime @default(now())
+  time    Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
   creatorId Int
+  Saved     Saved[]
 }
 
 model Creator {
