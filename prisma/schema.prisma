@@ -37,7 +37,7 @@ model Watched {
   id    Int  @id @default(autoincrement())
   user  User @relation(fields: [userId], references: [id])
   post  Post @relation(fields: [postId], references: [id])
-  count Int  @default(0)
+  count Int  @default(0) // count how many times the user watched the post
 
   createdAt DateTime @default(now())
 
@@ -54,15 +54,14 @@ model Post {
   date    DateTime @default(now())
   time    Int
   type    String   @default("שיעור")
-  desc   String   @default("")
+  desc    String   @default("")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
   creatorId Int
 
-  Saved Saved[]
-
-  Watched Watched[]
+  saved   Saved[]
+  watched Watched[]
 }
 
 model Creator {
