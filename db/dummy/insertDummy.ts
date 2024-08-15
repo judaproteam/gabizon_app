@@ -2,7 +2,7 @@
 // npm install @prisma/client
 
 import { Creator, Post, User } from "@prisma/client";
-import { db } from "./db";
+import { db } from "../db";
 
 export async function createDummyData() {
   // Create Creators
