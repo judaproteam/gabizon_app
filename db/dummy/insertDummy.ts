@@ -1,24 +1,24 @@
 // Install Prisma Client if not already installed
 // npm install @prisma/client
 
-import { Creator, Post, User } from "@prisma/client";
-import { db } from "../db";
+import { Creator, Post, User } from '@prisma/client'
+import { db } from '../db'
 
-export async function createDummyData() {
+export async function insertDummyData() {
   // Create Creators
-  const creators: Creator[] = [];
+  const creators: Creator[] = []
   for (let i = 1; i <= 20; i++) {
     const creator = await db.creator.create({
       data: {
         firstName: `CreatorFirstName${i}`,
         lastName: `CreatorLastName${i}`,
       },
-    });
-    creators.push(creator);
+    })
+    creators.push(creator)
   }
 
   // Create Posts
-  const posts: Post[] = [];
+  const posts: Post[] = []
   for (let i = 1; i <= 20; i++) {
     const post = await db.post.create({
       data: {
@@ -26,20 +26,20 @@ export async function createDummyData() {
         creatorId: creators[i % creators.length].id,
         time: Math.floor(Math.random() * 100),
       },
-    });
-    posts.push(post);
+    })
+    posts.push(post)
   }
 
   // Create Users
-  const users: User[] = [];
+  const users: User[] = []
   for (let i = 1; i <= 20; i++) {
     const user = await db.user.create({
       data: {
         firstName: `UserFirstName${i}`,
         lastName: `UserLastName${i}`,
       },
-    });
-    users.push(user);
+    })
+    users.push(user)
   }
 
   // Create Saved records
@@ -49,7 +49,7 @@ export async function createDummyData() {
         userId: users[i % users.length].id,
         postId: posts[i % posts.length].id,
       },
-    });
+    })
   }
 
   // Create Watched records
@@ -60,8 +60,8 @@ export async function createDummyData() {
         postId: posts[i % posts.length].id,
         count: Math.floor(Math.random() * 10),
       },
-    });
+    })
   }
 
-  console.log('Dummy data created successfully');
+  console.log('Dummy data created successfully')
 }

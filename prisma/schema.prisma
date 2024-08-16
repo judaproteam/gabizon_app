@@ -7,10 +7,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Creator {
+  id        Int     @id @default(autoincrement())
+  firstName String  @default("")
+  lastName  String  @default("")
+  name      String? @default(dbgenerated())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  post      Post[]
+}
+
 model User {
-  id        Int    @id @default(autoincrement())
+  id        Int     @id @default(autoincrement())
   firstName String
   lastName  String
+  name      String? @default(dbgenerated())
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -63,14 +75,4 @@ model Post {
 
   saved   Saved[]
   watched Watched[]
-}
-
-model Creator {
-  id        Int    @id @default(autoincrement())
-  firstName String @default("")
-  lastName  String @default("")
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-  post      Post[]
 }
