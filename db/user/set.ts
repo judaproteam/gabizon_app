@@ -6,13 +6,6 @@ type User = {
   lastName: string
 }
 
-type Post = {
-  id?: number
-  title: string
-  date: Date
-  time: number
-}
-
 export async function setUser(user: User) {
   const res = await db.user.create({
     data: {
@@ -20,5 +13,4 @@ export async function setUser(user: User) {
       lastName: user.lastName,
     },
   })
-
 }
